@@ -3,9 +3,9 @@ pragma solidity ^0.4.23;
 contract DappToken {
 	
 
-	// Constructor
-	// Set the total number of tokens
-	// Read the total number of tokens
+	//name
+	string public name ="Kir";
+	//symbol
 	uint256 public totalSupply; //unsigned integer
 	//mapping
 	mapping(address => uint256) public balanceOf;
@@ -15,6 +15,7 @@ contract DappToken {
 
 
 	function DappToken(uint256 _initialSupply) public  { 
+		balanceOf[msg.sender] = _initialSupply;
 		//store number of tokens that will exist
 		totalSupply = _initialSupply; //state variale. Every time updated will write to blockchain
 		//allocate initial supply
