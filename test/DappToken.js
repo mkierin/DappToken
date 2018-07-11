@@ -7,7 +7,14 @@ contract('DappToken', function(accounts){
 			tokenInstance = instance;
 			return tokenInstance.name();
 		}).then(function(name){
-			assert.equal(name, 'Kir', 'has the correct name');
+			assert.equal(name, 'Kir Token', 'has the correct name');
+			return tokenInstance.symbol();
+		}).then(function(symbol){
+			assert.equal(symbol, 'Kir', 'has the correct symbol');
+			return tokenInstance.standard();
+		}).then(function(standard){
+			assert.equal(standard, 'Kir Token v1.0', 'has the correct standard');
+
 		});
 	})
 
@@ -23,3 +30,15 @@ contract('DappToken', function(accounts){
 		});
 	});
 });
+
+	it('transfer token ownership', function(){
+		return DappToken.deployed().then(function(instance){
+			tokenInstance = instance;
+			//Test require statement first by transfering something larger than senders balance
+		return tokenInstance.transfer.call(account[1], 9999999999999999999);
+		}).then(assert.fail).catch(function(error){
+			assert(error.message.indexOf('revert')>= 0, 'error message must contain rvert');
+		})
+
+
+	} )

@@ -4,7 +4,9 @@ contract DappToken {
 	
 
 	//name
-	string public name ="Kir";
+	string public name ="Kir Token";
+	string public symbol ="Kir";
+	string public standard ="Kir Token v1.0";
 	//symbol
 	uint256 public totalSupply; //unsigned integer
 	//mapping
@@ -20,5 +22,12 @@ contract DappToken {
 		totalSupply = _initialSupply; //state variale. Every time updated will write to blockchain
 		//allocate initial supply
 
+	}
+	//Transfer
+	
+	function transfer(address _to, uint256 _value) public (bool success) {
+		//Exception if account doesn't have enough
+		//Return a Boolean
+		//Transfer Event
 	}
 }
