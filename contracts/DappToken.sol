@@ -7,9 +7,7 @@ contract DappToken {
 	string public name ="Kir Token";
 	string public symbol ="Kir";
 	string public standard ="Kir Token v1.0";
-	//symbol
 	uint256 public totalSupply; //unsigned integer
-	//mapping
 	mapping(address => uint256) public balanceOf;
 		//allocate total supply of the token to balanceOf and who has each token. 
 		//this mapping will know who has each token
@@ -24,10 +22,10 @@ contract DappToken {
 
 	}
 	//Transfer
-	
-	function transfer(address _to, uint256 _value) public (bool success) {
-		//Exception if account doesn't have enough
+	function transfer(address _to, uint256 _value) public returns (bool success) {
+        require(balanceOf[msg.sender] >= _value);
+		
 		//Return a Boolean
 		//Transfer Event
 	}
-}
+}//Exception if account doesn't have enough
