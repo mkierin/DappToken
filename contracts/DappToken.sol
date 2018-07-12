@@ -8,24 +8,57 @@ contract DappToken {
 	string public symbol ="Kir";
 	string public standard ="Kir Token v1.0";
 	uint256 public totalSupply; //unsigned integer
-	mapping(address => uint256) public balanceOf;
-		//allocate total supply of the token to balanceOf and who has each token. 
-		//this mapping will know who has each token
+	
+	 event Transfer(
+        address indexed _from,
+        address indexed _to,
+        uint256 _value
+    );
 
+    event Approval(
+        address indexed _owner,
+        address indexed _spender,
+        uint256 _value
+    );
 
+    mapping(address => uint256) public balanceOf;
+    mapping(address => mapping(address => uint256)) public allowance;
 
-	function DappToken(uint256 _initialSupply) public  { 
-		balanceOf[msg.sender] = _initialSupply;
-		//store number of tokens that will exist
-		totalSupply = _initialSupply; //state variale. Every time updated will write to blockchain
-		//allocate initial supply
+    function DappToken (uint256 _initialSupply) public {
+        balanceOf[msg.sender] = _initialSupply;
+        totalSupply = _initialSupply;
+    }
 
-	}
-	//Transfer
-	function transfer(address _to, uint256 _value) public returns (bool success) {
+    function transfer(address _to, uint256 _value) public returns (bool success) {
         require(balanceOf[msg.sender] >= _value);
-		
-		//Return a Boolean
-		//Transfer Event
-	}
-}//Exception if account doesn't have enough
+
+        balanceOf[msg.sender] -= _value;
+        balanceOf[_to] += _value;
+
+        Transfer(msg.sender, _to, _value);
+
+        return true;
+    }
+
+    function approve(address _spender, uint256 _value) public returns (bool success) {
+        allowance[msg.sender][_spender] = _value;
+
+        Approval(msg.sender, _spender, _value);
+
+        return true;
+    }
+
+    function transferFrom(address _from, address _to, uint256 _value) public returns (bool success) {
+        require(_value <= balanceOf[_from]);
+        require(_value <= allowance[_from][msg.sender]);
+
+        balanceOf[_from] -= _value;
+        balanceOf[_to] += _value;
+
+        allowance[_from][msg.sender] -= _value;
+
+        Transfer(_from, _to, _value);
+
+        return true;
+    }
+}
